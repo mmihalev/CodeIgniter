@@ -654,8 +654,12 @@ if ( ! function_exists('_exception_handler'))
 	 */
 	function _exception_handler($exception)
 	{
+		$message = $exception->getMessage() . PHP_EOL;
+		$trace = 'Full Trace: ' . PHP_EOL . json_encode($exception->getTrace()) . PHP_EOL;
+		$trace_str = 'Trace: ' . PHP_EOL . $exception->getTraceAsString() . PHP_EOL;
+
 		$_error =& load_class('Exceptions', 'core');
-		$_error->log_exception('error', 'Exception: '.$exception->getMessage(), $exception->getFile(), $exception->getLine());
+		$_error->log_exception('error', sprintf('Exception: %s%s%s', $message, $trace_str, $trace), $exception->getFile(), $exception->getLine());
 
 		is_cli() OR set_status_header(500);
 		// Should we display the error?
