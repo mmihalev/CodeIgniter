@@ -185,7 +185,7 @@ class CI_Log {
 			return FALSE;
 		}
 
-		$filepath = $this->_log_path.$this->_log_filename;
+		$filepath = (strtolower($level) !== 'error') ? $this->_log_path.$this->_log_filename :  $this->_log_path . 'error-' . $this->_log_filename;
 		$message = '';
 
 		if ( ! file_exists($filepath))
